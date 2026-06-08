@@ -5,15 +5,17 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc --noEmit",
-    "package": "esbuild src/index.ts --bundle --platform=node --target=node24 --outfile=dist/index.js --sourcemap"
+    "package": "ncc build src/index.ts -o dist --source-map --license licenses.txt",
+    "all": "npm run build && npm run package"
   },
+  "license": "MIT",
   "dependencies": {
-    "@actions/core": "^3.0.1",
-    "@actions/tool-cache": "^4.0.0"
+    "@actions/core": "3.0.1",
+    "@actions/tool-cache": "4.0.0"
   },
   "devDependencies": {
-    "@types/node": "^24.13.1",
-    "esbuild": "^0.28.0",
-    "typescript": "^6.0.3"
+    "@types/node": "24.13.1",
+    "@vercel/ncc": "0.38.4",
+    "typescript": "6.0.3"
   }
 }

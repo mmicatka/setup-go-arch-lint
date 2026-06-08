@@ -10,7 +10,7 @@ steps:
 
   - uses: your-username/setup-go-arch-lint@v1
     with:
-      version: 'v1.14.0'  # optional, defaults to v1.14.0
+      version: 'v1.15.0'  # optional, defaults to v1.15.0
 
   - name: Check architecture
     run: go-arch-lint check --project-path .
@@ -20,7 +20,7 @@ steps:
 
 | Input | Required | Default | Description |
 | --- | --- | --- | --- |
-| `version` | No | `v1.14.0` | Version of go-arch-lint to install. Accepts `v1.2.3` or `1.2.3`. |
+| `version` | No | `v1.15.0` | Version of go-arch-lint to install. Accepts `v1.2.3` or `1.2.3`. |
 
 ## Outputs
 

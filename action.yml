@@ -9,10 +9,10 @@ branding:
 inputs:
   version:
     description: >
-      Version of go-arch-lint to install (e.g. v1.14.0 or 1.14.0).
-      Defaults to v1.14.0.
+      Version of go-arch-lint to install (e.g. v1.15.0 or 1.15.0).
+      Defaults to v1.15.0.
     required: false
-    default: 'v1.14.0'
+    default: 'v1.15.0'
 
 outputs:
   version:
