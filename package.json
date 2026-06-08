@@ -1,0 +1,19 @@
+{
+  "name": "setup-go-arch-lint",
+  "version": "1.0.0",
+  "description": "GitHub Action to install go-arch-lint",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc --noEmit",
+    "package": "esbuild src/index.ts --bundle --platform=node --target=node24 --outfile=dist/index.js --sourcemap"
+  },
+  "dependencies": {
+    "@actions/core": "^3.0.1",
+    "@actions/tool-cache": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.13.1",
+    "esbuild": "^0.28.0",
+    "typescript": "^6.0.3"
+  }
+}

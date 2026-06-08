@@ -1,0 +1,23 @@
+name: 'Setup go-arch-lint'
+description: 'Install go-arch-lint, the Go architecture linter, and add it to PATH'
+author: 'Mike Micatka'
+
+branding:
+  icon: 'check-square'
+  color: 'blue'
+
+inputs:
+  version:
+    description: >
+      Version of go-arch-lint to install (e.g. v1.14.0 or 1.14.0).
+      Defaults to v1.14.0.
+    required: false
+    default: 'v1.14.0'
+
+outputs:
+  version:
+    description: 'The resolved version of go-arch-lint that was installed'
+
+runs:
+  using: 'node24'
+  main: 'dist/index.js'
