@@ -34877,13 +34877,28 @@ function parseChecksums(contents, filename) {
     return undefined;
 }
 /**
+ * Validates that a string is a hex-encoded SHA256 (64 hex chars) and returns it
+ * lowercased.
+ */
+function normalizeChecksum(input) {
+    const trimmed = input.trim();
+    if (!/^[0-9a-fA-F]{64}$/.test(trimmed)) {
+        throw new Error(`Invalid checksum: "${input}". Expected a 64-character hex-encoded SHA256.`);
+    }
+    return trimmed.toLowerCase();
+}
+/**
  * Resolves the expected SHA256 for a release asset.
  *
- * Prefers the vendored checksum (KNOWN_CHECKSUMS) so the trust anchor lives in
- * this repo. For versions that aren't pinned here, downloads the release's
- * `checksums.txt` as a fallback.
+ * Precedence: an explicit caller-supplied checksum wins, then the vendored
+ * checksum (KNOWN_CHECKSUMS) so the trust anchor lives in this repo, then the
+ * release's `checksums.txt` as a fallback for versions that aren't pinned here.
  */
-async function resolveExpectedChecksum(version, filename) {
+async function resolveExpectedChecksum(version, filename, overrideChecksum) {
+    if (overrideChecksum) {
+        info(`Using caller-supplied checksum for ${filename}`);
+        return normalizeChecksum(overrideChecksum);
+    }
     const pinned = KNOWN_CHECKSUMS[version]?.[filename];
     if (pinned) {
         info(`Using pinned checksum for ${filename}`);
@@ -34920,6 +34935,7 @@ async function run() {
         const rawVersion = getInput('version') || DEFAULT_VERSION;
         const version = normalizeVersion(rawVersion);
         validateVersion(version);
+        const checksumInput = getInput('checksum');
         info(`Setting up ${TOOL_NAME} ${version}`);
         // Check the tool cache first.
         let toolPath = find(TOOL_NAME, version);
@@ -34933,7 +34949,7 @@ async function run() {
             core_debug(`Download URL: ${url}`);
             const archivePath = await downloadTool(url);
             // Verify the archive against the expected SHA256 before extracting.
-            const expected = await resolveExpectedChecksum(version, filename);
+            const expected = await resolveExpectedChecksum(version, filename, checksumInput || undefined);
             verifyChecksum(archivePath, filename, expected);
             const extractedPath = isZip
                 ? await extractZip(archivePath)

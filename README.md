@@ -6,9 +6,9 @@ A GitHub Action that installs [go-arch-lint](https://github.com/fe3dback/go-arch
 
 ```yaml
 steps:
-  - uses: actions/checkout@v4
+  - uses: actions/checkout@v6
 
-  - uses: your-username/setup-go-arch-lint@v1
+  - uses: mmicatka/setup-go-arch-lint@v1
     with:
       version: 'v1.15.0'  # optional, defaults to v1.15.0
 
@@ -21,6 +21,7 @@ steps:
 | Input | Required | Default | Description |
 | --- | --- | --- | --- |
 | `version` | No | `v1.15.0` | Version of go-arch-lint to install. Accepts `v1.2.3` or `1.2.3`. |
+| `checksum` | No | | Expected SHA256 (hex) of the release archive for the current platform. When set, it takes precedence over the vendored checksum and the release's `checksums.txt`. |
 
 ## Outputs
 
@@ -36,6 +37,20 @@ extracted. For pinned versions the expected hash is vendored into this action
 upstream release asset is later tampered with. For versions that aren't pinned
 here, the action falls back to the `checksums.txt` published alongside the
 release. A mismatch fails the step.
+
+You can also supply your own hash via the `checksum` input, which overrides both
+of the above. This is the most secure option for an unpinned version, since the
+expected hash lives in your workflow rather than being fetched from the release:
+
+```yaml
+  - uses: mmicatka/setup-go-arch-lint@v1
+    with:
+      version: 'v1.14.0'
+      checksum: 'b694a40d4b880b7665b164da6023775ba7461ac2110de09f0b2dddd1c58d4176'
+```
+
+The `checksum` must match the archive for the runner's platform (OS + arch), so
+this is best suited to single-platform workflows.
 
 To pin a new version, add its entry from the release's `checksums.txt`:
 
@@ -59,9 +74,9 @@ jobs:
   arch-lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
-      - uses: your-username/setup-go-arch-lint@v1
+      - uses: mmicatka/setup-go-arch-lint@v1
 
       - name: Run go-arch-lint
         run: go-arch-lint check --project-path .

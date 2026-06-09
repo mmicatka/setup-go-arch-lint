@@ -13,6 +13,13 @@ inputs:
       Defaults to v1.15.0.
     required: false
     default: 'v1.15.0'
+  checksum:
+    description: >
+      Expected SHA256 (hex) of the downloaded release archive for the current
+      platform. When set, it takes precedence over both the vendored checksum
+      and the release's checksums.txt. Useful for pinning a version that isn't
+      vendored into this action.
+    required: false
 
 outputs:
   version:
