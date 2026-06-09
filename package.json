@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc --noEmit",
-    "package": "ncc build src/index.ts -o dist --source-map --license licenses.txt",
+    "package": "ncc build src/index.ts -o dist --license licenses.txt",
     "all": "npm run build && npm run package"
   },
   "license": "MIT",
