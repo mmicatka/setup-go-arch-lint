@@ -1,0 +1,21 @@
+{
+  "name": "setup-go-arch-lint",
+  "version": "1.0.0",
+  "description": "GitHub Action to install go-arch-lint",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc --noEmit",
+    "package": "ncc build src/index.ts -o dist --license licenses.txt",
+    "all": "npm run build && npm run package"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@actions/core": "3.0.1",
+    "@actions/tool-cache": "4.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "24.13.1",
+    "@vercel/ncc": "0.38.4",
+    "typescript": "6.0.3"
+  }
+}
